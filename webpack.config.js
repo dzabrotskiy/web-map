@@ -2,10 +2,13 @@
 const path = require('path')
 const cp = require('child_process')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent')
 
 const {NODE_ENV} = process.env
 const PORT = process.env.PORT || 3000
 const isDevelopment = NODE_ENV !== 'production'
+const isProduction = NODE_ENV === 'production'
 const HASH = cp.execSync('git rev-parse HEAD').toString()
 const BUILD_TIME = new Date().toLocaleString()
 
@@ -25,6 +28,19 @@ const BUILD = Object.assign(
     htmlTemplateName: path.join(DIR_APP_SRC, 'index.html')
   }
 )
+
+const getStyleLoaders = (cssOptions) => {
+  return [
+    isDevelopment && require.resolve('style-loader'),
+    isProduction && {
+      loader: MiniCssExtractPlugin.loader
+    },
+    {
+      loader: require.resolve('css-loader'),
+      options: cssOptions,
+    }
+  ].filter(Boolean);
+}
 
 const config = {
   mode: isDevelopment ? 'development' : 'production',
@@ -69,7 +85,13 @@ const config = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: getStyleLoaders({
+          importLoaders: 1,
+          sourceMap: isProduction,
+          modules: {
+            getLocalIdent: getCSSModuleLocalIdent,
+          },
+        })
       }
     ]
   },
