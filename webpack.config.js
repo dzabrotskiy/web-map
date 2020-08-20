@@ -25,7 +25,7 @@ console.log(`[webpack.config] HASH: ${HASH}`)
 const BUILD = Object.assign(
   {},
   {
-    htmlTemplateName: path.join(DIR_APP_SRC, 'index.html')
+    htmlTemplateName: path.join(DIR_APP_SRC, 'index.html'),
   }
 )
 
@@ -33,13 +33,13 @@ const getStyleLoaders = (cssOptions) => {
   return [
     isDevelopment && require.resolve('style-loader'),
     isProduction && {
-      loader: MiniCssExtractPlugin.loader
+      loader: MiniCssExtractPlugin.loader,
     },
     {
       loader: require.resolve('css-loader'),
       options: cssOptions,
-    }
-  ].filter(Boolean);
+    },
+  ].filter(Boolean)
 }
 
 const config = {
@@ -49,7 +49,7 @@ const config = {
   output: {
     path: DIR_APP_DIST,
     filename: isDevelopment ? '[name].js' : '[name].js?[hash]',
-    chunkFilename: '[name].js?[chunkhash]'
+    chunkFilename: '[name].js?[chunkhash]',
   },
   optimization: {
     splitChunks: {
@@ -57,11 +57,11 @@ const config = {
       name: true,
       cacheGroups: {
         vendors: {
-          reuseExistingChunk: true
-        }
-      }
+          reuseExistingChunk: true,
+        },
+      },
     },
-    removeEmptyChunks: true
+    removeEmptyChunks: true,
   },
   devServer: {
     hot: true,
@@ -69,19 +69,19 @@ const config = {
     port: PORT,
     stats: 'minimal',
     staticOptions: {
-      extensions: ['html']
-    }
+      extensions: ['html'],
+    },
   },
   resolve: {
     modules: ['node_modules', 'src'],
-    extensions: ['.ts', '.js', '.tsx']
+    extensions: ['.ts', '.js', '.tsx'],
   },
   module: {
     rules: [
       {
         test: /\.(ts|tsx)$/,
         include: [DIR_APP_SRC],
-        use: [{loader: 'ts-loader'}]
+        use: [{loader: 'ts-loader'}],
       },
       {
         test: /\.css$/i,
@@ -91,15 +91,15 @@ const config = {
           modules: {
             getLocalIdent: getCSSModuleLocalIdent,
           },
-        })
-      }
-    ]
+        }),
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: BUILD.htmlTemplateName
-    })
-  ]
+      template: BUILD.htmlTemplateName,
+    }),
+  ],
 }
 
 module.exports = config

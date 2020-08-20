@@ -1,0 +1,32 @@
+.Container {
+  position: absolute;
+  top: 40px;
+  right: 20px;
+  width: 40px;
+  height: 75px;
+  background: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.35);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.Button {
+  cursor: pointer;
+  outline: none;
+  background: transparent;
+  border: none;
+  font-size: 25px;
+  color: #262626;
+  height: 40px
+}
+
+.Button:hover {
+  color: #898989
+}
+
+.Line {
+  width: 100%;
+  height: 1px;
+  background: #262626;
+}

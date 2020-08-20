@@ -1,0 +1,47 @@
+.Container {
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  width: 350px;
+  height: 32px;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
+  border-radius: 5px;
+}
+
+.Input {
+  position: relative;
+  outline: none;
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px 0 0 5px;
+}
+
+.Button {
+  position: relative;
+  width: 70px;
+  height: 100%;
+  border: none;
+  background: rgb(2, 142, 255);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  transition: all .1s;
+}
+
+.Button > img {
+  filter: invert(1);
+  width: 21px;
+  height: 21px;
+}
+
+.Button:hover {
+  background: rgb(0, 187, 255);
+}
