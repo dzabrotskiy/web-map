@@ -91,7 +91,7 @@ export class SearchPanel extends Component<SearchPanelProps, SearchPanelState> {
         features: features,
       })
       const clusterSource = new Cluster({
-        distance: 10,
+        distance: 20,
         source: source,
       })
       const cluster = new VectorLayer({
