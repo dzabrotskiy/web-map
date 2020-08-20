@@ -6,7 +6,7 @@ import View from 'ol/View'
 import css from './index.css'
 import {fromLonLat} from 'ol/proj'
 import {Zoom} from './components/zoom'
-import {SearchPanel} from './components/SearchPanel'
+import {SearchPanel} from './components/search-panel'
 import XYZSource from 'ol/source/XYZ'
 
 export const App = (): JSX.Element => {
