@@ -15,8 +15,8 @@ export const App = (): JSX.Element => {
     const layer2GIS = new TileLayer({
       source: new XYZSource({
         url: 'http://tile1.maps.2gis.com/tiles?layerType=nc&x={x}&y={y}&z={z}',
-        crossOrigin: 'anonymous'
-      })
+        crossOrigin: 'anonymous',
+      }),
     })
     const map = new Map({
       layers: [layer2GIS],

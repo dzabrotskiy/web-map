@@ -7,17 +7,14 @@ import Feature from 'ol/Feature'
 import Point from 'ol/geom/Point'
 import {Cluster, Vector as VectorSource} from 'ol/source'
 import {Vector as VectorLayer} from 'ol/layer'
-import {
-  Icon,
-  Style
-} from 'ol/style';
+import {Icon, Style} from 'ol/style'
 
 interface SearchPanelProps {
   map: Map
 }
 
 interface SearchPanelState {
-  value: string,
+  value: string
   layer: VectorLayer | null
 }
 
@@ -33,14 +30,13 @@ interface Item {
 }
 
 export class SearchPanel extends Component<SearchPanelProps, SearchPanelState> {
-
-  private lastQueryString: string = ''
+  private lastQueryString = ''
 
   constructor(props: SearchPanelProps) {
     super(props)
     this.state = {
       value: '',
-      layer: null
+      layer: null,
     }
   }
 
@@ -51,7 +47,7 @@ export class SearchPanel extends Component<SearchPanelProps, SearchPanelState> {
     if (value.length === 0 && this.state.layer) {
       this.props.map.removeLayer(this.state.layer)
       this.setState({
-        layer: null
+        layer: null,
       })
       this.lastQueryString = ''
     }
@@ -70,17 +66,19 @@ export class SearchPanel extends Component<SearchPanelProps, SearchPanelState> {
   fetchMarkers = async (): Promise<void> => {
     const {value, layer} = this.state
     if (this.lastQueryString === value) {
-      alert('Маркеры по этому запросу уже отображены')
+      alert(`Маркеры по запросу ${this.lastQueryString} уже отображены`)
       return
     }
     if (this.lastQueryString !== value && layer)
       this.props.map.removeLayer(layer)
     if (value) {
       this.lastQueryString = value
-      const {result: {items, total}} = await fetchMarkers(value)
+      const {
+        result: {items, total},
+      } = await fetchMarkers(value)
       console.log('items: ', items)
       console.log('total: ', total)
-      let features = new Array(items.length)
+      const features = new Array(items.length)
       items.forEach((item: Item, index: number) => {
         if (item.lat && item.lon) {
           const coordinate = fromLonLat([item.lon, item.lat])
@@ -99,13 +97,13 @@ export class SearchPanel extends Component<SearchPanelProps, SearchPanelState> {
         style: new Style({
           image: new Icon({
             src: '/static/2GisMarker.png',
-            scale: 0.2
+            scale: 0.2,
           }),
-        })
+        }),
       })
       this.props.map.addLayer(cluster)
       this.setState({
-        layer: cluster
+        layer: cluster,
       })
     }
   }
