@@ -99,7 +99,12 @@ const config = {
     new HtmlWebpackPlugin({
       template: BUILD.htmlTemplateName,
     }),
-  ],
+    isProduction &&
+      new MiniCssExtractPlugin({
+        filename: 'css/[name].[contenthash:8].css',
+        chunkFilename: 'css/[name].[contenthash:8].chunk.css',
+      }),
+  ].filter(Boolean),
 }
 
 module.exports = config
