@@ -73,11 +73,12 @@ export class SearchPanel extends Component<SearchPanelProps, SearchPanelState> {
       this.props.map.removeLayer(layer)
     if (value) {
       this.lastQueryString = value
+      let startRequest = performance.now()
       const {
-        result: {items, total},
+        result: {items},
       } = await fetchMarkers(value)
-      console.log('items: ', items)
-      console.log('total: ', total)
+      const endRequest = performance.now()
+      let startMarkersRender = performance.now()
       const features = new Array(items.length)
       items.forEach((item: Item, index: number) => {
         if (item.lat && item.lon) {
@@ -102,6 +103,11 @@ export class SearchPanel extends Component<SearchPanelProps, SearchPanelState> {
         }),
       })
       this.props.map.addLayer(cluster)
+      const endMarkersRender = performance.now()
+      console.table({
+        requestTime: `${endRequest - startRequest}ms`,
+        renderTime: `${endMarkersRender - startMarkersRender}ms`
+      })
       this.setState({
         layer: cluster,
       })
