@@ -1,42 +1,32 @@
 import React from 'react'
-import 'ol/ol.css'
-import Map from 'ol/Map'
-import TileLayer from 'ol/layer/Tile'
-import View from 'ol/View'
+// import 'ol/ol.css'
 import css from './index.css'
-import {fromLonLat} from 'ol/proj'
-import {Zoom} from './components/zoom'
-import {SearchPanel} from './components/search-panel'
-import XYZSource from 'ol/source/XYZ'
+// import {Zoom} from './components/zoom'
+// import {SearchPanel} from './components/search-panel'
+import {load} from '@2gis/mapgl'
 
 export const App = (): JSX.Element => {
-  const [map, setMap] = React.useState<Map | null>(null)
+  const [map, setMap] = React.useState<any>(null)
   React.useEffect(() => {
-    const layer2GIS = new TileLayer({
-      source: new XYZSource({
-        url: 'http://tile1.maps.2gis.com/tiles?layerType=nc&x={x}&y={y}&z={z}',
-        crossOrigin: 'anonymous',
-      }),
-    })
-    const map = new Map({
-      layers: [layer2GIS],
-      target: 'map',
-      view: new View({
-        center: fromLonLat([37.6178, 55.7517]),
+    let map
+    load().then((mapglApi) => {
+      map = new mapglApi.Map('map', {
+        center: [37.6178, 55.7517],
         zoom: 11,
-      }),
-      controls: [],
+        key: '6aa7363e-cb3a-11ea-b2e4-f71ddc0b6dcb',
+      })
+      setMap(map)
     })
-    setMap(map)
   }, [])
+  console.log(map)
   return (
     <div id="map" className={css.Map}>
-      {map && (
-        <>
-          <Zoom map={map} />
-          <SearchPanel map={map} />
-        </>
-      )}
+      {/*{map && (*/}
+      {/*<>*/}
+      {/*<Zoom map={map} />*/}
+      {/*<SearchPanel map={map} />*/}
+      {/*</>*/}
+      {/*)}*/}
     </div>
   )
 }
