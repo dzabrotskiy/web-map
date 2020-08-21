@@ -14,7 +14,7 @@
 - [**`TypeScript`**](https://www.typescriptlang.org/)
 - [**`React`**](https://reactjs.org/)
 - [**`Webpack`**](https://webpack.js.org/)
-- [**`Openlayers`**](https://https://openlayers.org/)
+- [**`MapGL`**](https://docs.2gis.com/ru/mapgl/overview)
 
 ## Level 3
 В моей реализации используется кластеризация маркеров.

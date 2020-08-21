@@ -24,6 +24,7 @@
   "homepage": "https://github.com/dzabrotskiy/web-map#readme",
   "dependencies": {
     "@2gis/mapgl": "^1.0.0",
+    "@2gis/mapgl-clusterer": "^1.2.2",
     "html-webpack-plugin": "^4.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
