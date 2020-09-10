@@ -1,24 +1,32 @@
 import React from 'react'
 import css from './index.css'
 import {load} from '@2gis/mapgl'
-import {SearchPanel} from './components/search-panel'
+import * as MapGl from '@2gis/mapgl/types'
+import {SearchPanel, SearchPanelProps} from './components/search-panel'
 
-export const App = (): JSX.Element => {
-  const [map, setMap] = React.useState<any>(null)
+export const App: React.FC = (): JSX.Element => {
+  const [mapGl, setMapGl] = React.useState<SearchPanelProps>({
+    map: null,
+    mapgl: null,
+  })
   React.useEffect(() => {
-    let map
-    load().then((mapglApi) => {
-      map = new mapglApi.Map('map', {
+    let map: MapGl.Map
+    load().then((mapgl: typeof MapGl) => {
+      map = new mapgl.Map('map', {
         center: [37.6178, 55.7517],
         zoom: 11,
         key: '6aa7363e-cb3a-11ea-b2e4-f71ddc0b6dcb',
       })
-      setMap(map)
+      setMapGl({
+        map,
+        mapgl,
+      })
     })
+    return () => map && map.destroy()
   }, [])
   return (
     <div id="map" className={css.Map}>
-      {map && <SearchPanel map={map} />}
+      {mapGl.map && <SearchPanel {...mapGl} />}
     </div>
   )
 }
