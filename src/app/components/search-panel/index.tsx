@@ -1,15 +1,17 @@
 import React, {ReactNode, Component} from 'react'
 import css from './index.css'
-import {fetchMarkers} from '../../../api'
-import {Clusterer} from '@2gis/mapgl-clusterer'
+import {fetchMarkers} from 'api'
+import * as MapGl from '@2gis/mapgl/types'
+import {Cluster} from 'lib'
 
-interface SearchPanelProps {
-  map: any
+export interface SearchPanelProps {
+  map: MapGl.Map | null
+  mapgl: typeof MapGl | null
 }
 
 interface SearchPanelState {
   value: string
-  layer: any
+  layer: Cluster | null
 }
 
 interface Item {
@@ -34,7 +36,9 @@ export class SearchPanel extends Component<SearchPanelProps, SearchPanelState> {
     }
   }
 
-  onInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  private onInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     const {
       target: {value},
     } = event
@@ -50,15 +54,19 @@ export class SearchPanel extends Component<SearchPanelProps, SearchPanelState> {
     })
   }
 
-  onInputKeyDown = async (event: React.KeyboardEvent): Promise<void> => {
+  private onInputKeyDown = async (
+    event: React.KeyboardEvent
+  ): Promise<void> => {
     const {key} = event
     if (key === 'Enter') {
       await this.fetchMarkers()
     }
   }
 
-  fetchMarkers = async (): Promise<void> => {
+  private fetchMarkers = async (): Promise<void> => {
     const {value, layer} = this.state
+    const {mapgl, map} = this.props
+    if (!mapgl || !map) return
     if (this.lastQueryString === value) {
       alert(`Маркеры по запросу ${this.lastQueryString} уже отображены`)
       return
@@ -69,20 +77,22 @@ export class SearchPanel extends Component<SearchPanelProps, SearchPanelState> {
       const {
         result: {items},
       } = await fetchMarkers(value)
-      const clusterer = new Clusterer(this.props.map, {
-        radius: 50,
+      const coordinates: Array<[number, number]> = items.map((item: Item) => [
+        item.lon,
+        item.lat,
+      ])
+      const cluster: Cluster = new Cluster(map, {
+        coordinates,
+        mapgl,
       })
-      const markers = items.map((item: Item) => ({
-        coordinates: [item.lon, item.lat],
-      }))
-      clusterer.load(markers)
+      console.log(cluster)
       this.setState({
-        layer: clusterer,
+        layer: cluster,
       })
     }
   }
 
-  render(): ReactNode {
+  public render(): ReactNode {
     return (
       <div className={css.Container}>
         <input
