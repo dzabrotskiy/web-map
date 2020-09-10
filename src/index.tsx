@@ -3,6 +3,6 @@ import {render} from 'react-dom'
 import './index.css'
 import {App} from './app'
 
-const rootElement: HTMLElement | null = document.getElementById('root')
+const rootElement = document.getElementById('root')
 
 render(<App />, rootElement)
